@@ -1,0 +1,40 @@
+---
+import { urlForImage } from '../lib/sanity';
+import type { HomePage } from '../types';
+
+interface Props {
+  data: HomePage;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="hero">
+  <div class="container">
+    <h1>{data.title}</h1>
+    <p>{data.description}</p>
+    {data.heroImage && (
+      <img
+        src={urlForImage(data.heroImage).width(1200).url()}
+        alt="Hero image"
+      />
+    )}
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero img {
+    max-width: 100%;
+    margin-top: 2rem;
+  }
+</style>

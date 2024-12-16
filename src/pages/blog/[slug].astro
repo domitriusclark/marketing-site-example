@@ -1,0 +1,82 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import { getPost, getAllSlugs, urlForImage } from "../../lib/sanity";
+import { formatDate } from "../../utils/date";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug: string) => ({
+    params: { slug: slug.toString() },
+  }));
+};
+const { slug } = Astro.params;
+if (typeof slug !== "string") {
+  return Astro.redirect("/404");
+}
+const post = await getPost(slug);
+
+if (!post) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={post.title}>
+  <article class="container">
+    {
+      post.mainImage && (
+        <img
+          class="hero-image"
+          src={urlForImage(post.mainImage).width(1200).height(600).url()}
+          alt={post.title}
+        />
+      )
+    }
+    <h1>{post.title}</h1>
+    <div class="meta">
+      {
+        post.publishedAt ? (
+          <time datetime={post.publishedAt}>
+            {formatDate(post.publishedAt)}
+          </time>
+        ) : (
+          <span>Publication date not available</span>
+        )
+      }
+      {post.author && <span> · By {post.author.name}</span>}
+    </div>
+    <div class="content">
+      {post.body}
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .meta {
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    line-height: 1.6;
+  }
+</style>
