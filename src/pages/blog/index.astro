@@ -1,18 +1,17 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PostCard from '../../components/PostCard.astro';
-import { getAllPosts } from '../../lib/sanity';
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getAllPosts } from "../../lib/sanity";
+import type { Post } from "../../types";
 
-const posts = await getAllPosts();
+const posts: Post[] = await getAllPosts();
 ---
 
 <Layout title="Blog">
   <main class="container">
     <h1>Blog</h1>
     <div class="posts-grid">
-      {posts.map((post) => (
-        <PostCard post={post} />
-      ))}
+      {posts.map((post) => <PostCard post={post} />)}
     </div>
   </main>
 </Layout>
