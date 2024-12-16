@@ -5,10 +5,12 @@ import { getPost, getAllSlugs, urlForImage } from "../../lib/sanity";
 import { formatDate } from "../../utils/date";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = await getAllSlugs();
-  return slugs.map((slug: string) => ({
-    params: { slug: slug.toString() },
-  }));
+  const slugs: { slug: { current: string } }[] = await getAllSlugs();
+  return slugs.map((slug) => {
+    return {
+      params: { slug: slug.slug.current },
+    };
+  });
 };
 const { slug } = Astro.params;
 if (typeof slug !== "string") {
@@ -22,18 +24,18 @@ if (!post) {
 ---
 
 <Layout title={post.title}>
-  <article class="container">
+  <article class="mx-auto p-8 max-w-3xl">
     {
       post.mainImage && (
         <img
-          class="hero-image"
+          class="mb-8 rounded-lg w-full h-96 object-cover"
           src={urlForImage(post.mainImage).width(1200).height(600).url()}
           alt={post.title}
         />
       )
     }
-    <h1>{post.title}</h1>
-    <div class="meta">
+    <h1 class="mb-4 text-4xl">{post.title}</h1>
+    <div class="mb-8 text-gray-600">
       {
         post.publishedAt ? (
           <time datetime={post.publishedAt}>
@@ -45,38 +47,8 @@ if (!post) {
       }
       {post.author && <span> · By {post.author.name}</span>}
     </div>
-    <div class="content">
-      {post.body}
+    <div class="leading-relaxed">
+      {post.body[0].children[0].text}
     </div>
   </article>
 </Layout>
-
-<style>
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  .hero-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .meta {
-    color: #666;
-    margin-bottom: 2rem;
-  }
-
-  .content {
-    line-height: 1.6;
-  }
-</style>
