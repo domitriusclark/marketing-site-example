@@ -12,7 +12,9 @@ export default async (req: Request, context: Context) => {
     }
   );
 
-  await fetch("https://api.netlify.com/build_hooks/675fd6db315992a7037b5652");
+  await fetch("https://api.netlify.com/build_hooks/675fd6db315992a7037b5652", {
+    method: "POST",
+  });
 
   return new Response("Build triggered", {
     status: 200,
