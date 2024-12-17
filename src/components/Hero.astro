@@ -1,6 +1,6 @@
 ---
-import { urlForImage } from '../lib/sanity';
-import type { HomePage } from '../types';
+import { urlForImage } from "../lib/sanity";
+import type { HomePage } from "../types";
 
 interface Props {
   data: HomePage;
@@ -9,32 +9,18 @@ interface Props {
 const { data } = Astro.props;
 ---
 
-<section class="hero">
-  <div class="container">
-    <h1>{data.title}</h1>
+<section class="py-16 text-center">
+  <div class="mx-auto container">
+    <h1 class="mb-4 text-3xl">{data.title}</h1>
     <p>{data.description}</p>
-    {data.heroImage && (
-      <img
-        src={urlForImage(data.heroImage).width(1200).url()}
-        alt="Hero image"
-      />
-    )}
+    {
+      data.heroImage && (
+        <img
+          src={urlForImage(data.heroImage).width(1200).url()}
+          alt="Hero image"
+          class="mt-8 max-w-full"
+        />
+      )
+    }
   </div>
 </section>
-
-<style>
-  .hero {
-    padding: 4rem 0;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .hero img {
-    max-width: 100%;
-    margin-top: 2rem;
-  }
-</style>

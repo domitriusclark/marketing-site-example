@@ -6,9 +6,9 @@ import { formatDate } from "../../utils/date";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const slugs: { slug: { current: string } }[] = await getAllSlugs();
-  return slugs.map((slug) => {
+  return slugs.map(({ slug }) => {
     return {
-      params: { slug: slug.slug.current },
+      params: { slug: slug.current },
     };
   });
 };

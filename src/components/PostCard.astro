@@ -1,7 +1,7 @@
 ---
-import { urlForImage } from '../lib/sanity';
-import { formatDate } from '../utils/date';
-import type { Post } from '../types';
+import { urlForImage } from "../lib/sanity";
+import { formatDate } from "../utils/date";
+import type { Post } from "../types";
 
 interface Props {
   post: Post;
@@ -10,60 +10,27 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<article class="post-card">
-  {post.mainImage && (
-    <img
-      src={urlForImage(post.mainImage).width(600).height(400).url()}
-      alt={post.title}
-    />
-  )}
-  <div class="content">
-    <h2>
-      <a href={`/blog/${post.slug.current}`}>{post.title}</a>
+<article class="border-gray-200 border rounded-lg overflow-hidden">
+  {
+    post.mainImage && (
+      <img
+        src={urlForImage(post.mainImage).width(600).height(400).url()}
+        alt={post.title}
+        class="w-full h-52 object-cover"
+      />
+    )
+  }
+  <div class="p-6">
+    <h2 class="mb-2">
+      <a
+        href={`/blog/${post.slug.current}`}
+        class="text-inherit hover:underline no-underline">{post.title}</a
+      >
     </h2>
-    <p class="meta">
+    <p class="mb-4 text-gray-600 text-sm">
       {formatDate(post.publishedAt)}
-      {post.author && (
-        <span> · By {post.author.name}</span>
-      )}
+      {post.author && <span> · By {post.author.name}</span>}
     </p>
     <p>{post.excerpt}</p>
   </div>
 </article>
-
-<style>
-  .post-card {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .post-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-
-  .content {
-    padding: 1.5rem;
-  }
-
-  .content h2 {
-    margin: 0 0 0.5rem;
-  }
-
-  .content a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .content a:hover {
-    text-decoration: underline;
-  }
-
-  .meta {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-</style>
