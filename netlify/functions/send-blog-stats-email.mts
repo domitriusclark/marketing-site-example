@@ -4,9 +4,12 @@ import sgMail from "@sendgrid/mail";
 
 export default async (req: Request) => {
   async function sendEmail() {
-    sgMail.setApiKey(import.meta.env.SENDGRID_API_KEY);
+    if (!process.env.SENDGRID_API_KEY) {
+      throw new Error("SENDGRID_API_KEY is not set");
+    }
 
-    // get amount of blog posts from sanity
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     const sanityClient = createClient({
       projectId: "t8gds5es",
       dataset: "production",
@@ -22,7 +25,7 @@ export default async (req: Request) => {
 
     const msg = {
       to: "domitrius.clark@netlify.com",
-      from: "domitrius.clark@netlify.com",
+      from: "domitrius.clark+sendgrid@netlify.com",
       subject: "Hourly Blog stats",
       text: `
       Amount of blog posts: ${amountOfBlogPosts}
@@ -45,5 +48,10 @@ export default async (req: Request) => {
 
   return new Response("Email sent", {
     status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    },
   });
 };

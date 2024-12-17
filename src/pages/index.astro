@@ -20,8 +20,8 @@ const home = await getHomePage();
   const triggerBuild = async () => {
     console.log("Triggering build");
     await fetch(
-      // "https://ntl-marketing-site-example.netlify.app/.netlify/functions/trigger-build-hourly"
-      "http://localhost:8888/.netlify/functions/send-blog-stats-email"
+      "https://ntl-marketing-site-example.netlify.app/.netlify/functions/trigger-build-hourly"
+      // "http://localhost:8888/.netlify/functions/trigger-build-hourly"
     );
   };
 
