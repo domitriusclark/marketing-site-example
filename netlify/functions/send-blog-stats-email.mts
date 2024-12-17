@@ -24,7 +24,7 @@ export default async (req: Request) => {
     );
 
     const msg = {
-      to: "domitrius.clark@netlify.com",
+      to: "domitriusaclark@gmail.com",
       from: "domitrius.clark+sendgrid@netlify.com",
       subject: "Hourly Blog stats",
       text: `
