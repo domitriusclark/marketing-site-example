@@ -41,4 +41,10 @@ export default async (req: Request) => {
 
     await sgMail.send(msg);
   }
+
+  await sendEmail();
+
+  return new Response("Email sent", {
+    status: 200,
+  });
 };

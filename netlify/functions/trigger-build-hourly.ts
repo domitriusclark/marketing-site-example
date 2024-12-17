@@ -1,6 +1,6 @@
-import type { Config } from "@netlify/functions";
+import type { Context, Config } from "@netlify/functions";
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
   await fetch(
     "https://ntl-marketing-site-example.netlify.app/.netlify/functions/send-blog-stats-email",
     {
@@ -12,8 +12,8 @@ export default async (req: Request) => {
   );
 
   await fetch("https://api.netlify.com/build_hooks/675fd6db315992a7037b5652");
-};
 
-export const config: Config = {
-  schedule: "@hourly",
+  return new Response("Build triggered", {
+    status: 200,
+  });
 };
