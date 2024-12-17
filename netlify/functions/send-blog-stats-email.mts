@@ -1,11 +1,10 @@
 import { createClient } from "@sanity/client";
 import groq from "groq";
+import sgMail from "@sendgrid/mail";
 
-// create a netlify function handler
 export default async (req: Request) => {
   async function sendEmail() {
-    const sgMail = require("@sendgrid/mail");
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    sgMail.setApiKey(import.meta.env.SENDGRID_API_KEY);
 
     // get amount of blog posts from sanity
     const sanityClient = createClient({

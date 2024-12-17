@@ -15,6 +15,7 @@
     "@sanity/astro": "^3.1.8",
     "@sanity/client": "^6.24.1",
     "@sanity/visual-editing": "^2.10.7",
+    "@sendgrid/mail": "^8.1.4",
     "astro": "^5.0.5",
     "sanity": "^3.67.1",
     "tailwindcss": "^3.4.16"
