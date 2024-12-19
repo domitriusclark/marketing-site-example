@@ -14,6 +14,7 @@ export default async (req: Request) => {
       projectId: "t8gds5es",
       dataset: "production",
       useCdn: true,
+      apiVersion: "2024-01-17",
     });
 
     const amountOfBlogPosts = await sanityClient.fetch(
@@ -25,7 +26,7 @@ export default async (req: Request) => {
 
     const msg = {
       to: "domitriusaclark@gmail.com",
-      from: "domitrius.clark+sendgrid@netlify.com",
+      from: "domitriusaclark@gmail.com",
       subject: "Hourly Blog stats",
       text: `
       Amount of blog posts: ${amountOfBlogPosts}
