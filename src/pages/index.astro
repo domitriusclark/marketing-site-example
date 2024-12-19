@@ -11,19 +11,5 @@ const home = await getHomePage();
   <main>
     <Hero data={home} />
     {home.features && <Features features={home.features} />}
-
-    <button> Trigger Build </button>
   </main>
 </Layout>
-
-<script>
-  const triggerBuild = async () => {
-    console.log("Triggering build");
-    await fetch(
-      "https://ntl-marketing-site-example.netlify.app/.netlify/functions/trigger-build-hourly"
-      // "http://localhost:8888/.netlify/functions/trigger-build-hourly"
-    );
-  };
-
-  document.querySelector("button")?.addEventListener("click", triggerBuild);
-</script>

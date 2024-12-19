@@ -2,7 +2,6 @@ import type { Context, Config } from "@netlify/functions";
 
 export default async (req: Request, context: Context) => {
   await fetch(
-    // "http://localhost:8888/.netlify/functions/send-blog-stats-email",
     "https://ntl-marketing-site-example.netlify.app/.netlify/functions/send-blog-stats-email",
     {
       method: "POST",
@@ -24,4 +23,8 @@ export default async (req: Request, context: Context) => {
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     },
   });
+};
+
+export const config: Config = {
+  schedule: "@hourly",
 };

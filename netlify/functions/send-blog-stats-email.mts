@@ -18,22 +18,27 @@ export default async (req: Request) => {
     });
 
     const amountOfBlogPosts = await sanityClient.fetch(
-      groq`*[_type == "post"].length`
+      groq`*[_type == "post"]`
     );
     const blogPostTitles = await sanityClient.fetch(
       groq`*[_type == "post"] {title}`
     );
 
-    const msg = {
+    const hidingMyEmails = {
       to: "domitriusaclark@gmail.com",
-      from: "domitriusaclark@gmail.com",
+      from: "domitriusaclark+sendgrid@gmail.com",
+    };
+
+    const msg = {
+      to: hidingMyEmails.to,
+      from: hidingMyEmails.from,
       subject: "Hourly Blog stats",
       text: `
       Amount of blog posts: ${amountOfBlogPosts}
       Blog post titles: ${blogPostTitles.map((title: any) => title.title).join(", ")}
       `,
       html: `
-      <p>Amount of blog posts: ${amountOfBlogPosts}</p>
+      <p>Amount of blog posts: ${amountOfBlogPosts.length}</p>
       <p>Blog post titles: 
         <div style="display: flex; flex-direction: column; gap: 10px;">
           ${blogPostTitles.map((title: any) => `<li>${title.title}</li>`).join("")}
